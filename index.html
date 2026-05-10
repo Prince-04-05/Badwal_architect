@@ -1,0 +1,1557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Badwal Architect — Designing Dreams into Reality. Premium architecture and interior design firm.">
+<title>Badwal Architect — Designing Dreams into Reality</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════
+   ROOT & RESET
+═══════════════════════════════════════ */
+:root {
+  --black: #0a0a08;
+  --black2: #111110;
+  --black3: #1a1a18;
+  --white: #f5f2ec;
+  --white2: #e8e4dc;
+  --gold: #c9a84c;
+  --gold2: #e8c97a;
+  --gold3: #a07830;
+  --glass: rgba(245,242,236,0.04);
+  --glass2: rgba(201,168,76,0.08);
+  --border: rgba(201,168,76,0.2);
+  --border2: rgba(201,168,76,0.4);
+  --text: #f5f2ec;
+  --text2: #b8b4aa;
+  --text3: #6b6860;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Montserrat', sans-serif;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease2: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+[data-theme="light"] {
+  --black: #f5f2ec;
+  --black2: #ede9e0;
+  --black3: #e0dbd0;
+  --white: #0a0a08;
+  --white2: #1a1a18;
+  --glass: rgba(10,10,8,0.04);
+  --glass2: rgba(201,168,76,0.1);
+  --border: rgba(201,168,76,0.3);
+  --text: #0a0a08;
+  --text2: #4a4840;
+  --text3: #8a8880;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: var(--font-body);
+  background: var(--black);
+  color: var(--text);
+  overflow-x: hidden;
+  cursor: none;
+  transition: background 0.5s, color 0.5s;
+}
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+button { font-family: var(--font-body); cursor: none; }
+
+/* ═══════════════════════════════════════
+   CUSTOM CURSOR
+═══════════════════════════════════════ */
+.cursor {
+  width: 10px; height: 10px;
+  background: var(--gold);
+  border-radius: 50%;
+  position: fixed; top: 0; left: 0;
+  pointer-events: none; z-index: 99999;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s, background 0.3s;
+  mix-blend-mode: difference;
+}
+.cursor-ring {
+  width: 36px; height: 36px;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  position: fixed; top: 0; left: 0;
+  pointer-events: none; z-index: 99998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.12s var(--ease), width 0.3s, height 0.3s, border-color 0.3s;
+}
+body:has(a:hover) .cursor,
+body:has(button:hover) .cursor { width: 20px; height: 20px; }
+
+/* ═══════════════════════════════════════
+   LOADING SCREEN
+═══════════════════════════════════════ */
+#loader {
+  position: fixed; inset: 0;
+  background: var(--black);
+  z-index: 99990;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 32px;
+  animation: loaderFade 0.6s ease 2.5s forwards;
+}
+.loader-logo {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 5vw, 52px);
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--white);
+  animation: loaderText 2s var(--ease) both;
+}
+.loader-logo span { color: var(--gold); }
+.loader-bar-wrap {
+  width: 200px; height: 1px;
+  background: rgba(201,168,76,0.2);
+  overflow: hidden;
+}
+.loader-bar {
+  height: 100%; width: 0;
+  background: linear-gradient(90deg, var(--gold3), var(--gold2));
+  animation: loaderBar 2.2s var(--ease) 0.3s forwards;
+}
+.loader-count {
+  font-family: var(--font-display);
+  font-size: 13px;
+  letter-spacing: 0.4em;
+  color: var(--text3);
+  animation: loaderText 1s ease 0.2s both;
+}
+@keyframes loaderFade { to { opacity: 0; pointer-events: none; } }
+@keyframes loaderText { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes loaderBar { to { width: 100%; } }
+
+/* ═══════════════════════════════════════
+   NAVBAR
+═══════════════════════════════════════ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 1000;
+  padding: 0 clamp(24px, 5vw, 80px);
+  height: 72px;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: background 0.4s, border-color 0.4s, backdrop-filter 0.4s;
+}
+nav.scrolled {
+  background: rgba(10,10,8,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: 20px; font-weight: 400;
+  letter-spacing: 0.2em; text-transform: uppercase;
+}
+.nav-logo span { color: var(--gold); }
+.nav-links {
+  display: flex; align-items: center; gap: 40px;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--text2); font-weight: 500;
+  transition: color 0.3s; position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0;
+  width: 0; height: 1px; background: var(--gold);
+  transition: width 0.3s var(--ease);
+}
+.nav-links a:hover { color: var(--gold); }
+.nav-links a:hover::after { width: 100%; }
+.nav-right { display: flex; align-items: center; gap: 20px; }
+.theme-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--glass); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; transition: all 0.3s; color: var(--text2);
+}
+.theme-btn:hover { border-color: var(--gold); color: var(--gold); }
+.nav-cta {
+  padding: 10px 24px;
+  border: 1px solid var(--gold);
+  font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--gold); font-weight: 500;
+  transition: all 0.3s;
+  background: transparent;
+}
+.nav-cta:hover { background: var(--gold); color: var(--black); }
+.hamburger {
+  display: none; flex-direction: column; gap: 5px;
+  background: none; border: none; padding: 4px;
+}
+.hamburger span {
+  width: 24px; height: 1px; background: var(--text);
+  display: block; transition: all 0.3s;
+}
+.mobile-menu {
+  display: none; position: fixed; inset: 0; top: 72px;
+  background: rgba(10,10,8,0.97);
+  backdrop-filter: blur(20px);
+  flex-direction: column; align-items: center; justify-content: center;
+  gap: 40px; z-index: 999;
+}
+.mobile-menu.open { display: flex; animation: fadeIn 0.3s ease; }
+.mobile-menu a {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 6vw, 48px); font-weight: 300;
+  letter-spacing: 0.1em; color: var(--text2);
+  transition: color 0.3s;
+}
+.mobile-menu a:hover { color: var(--gold); }
+
+/* ═══════════════════════════════════════
+   HERO
+═══════════════════════════════════════ */
+#hero {
+  position: relative; height: 100vh; min-height: 600px;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: 
+    linear-gradient(to bottom, rgba(10,10,8,0.3) 0%, rgba(10,10,8,0.6) 60%, rgba(10,10,8,1) 100%),
+    url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&q=80') center/cover no-repeat;
+  animation: heroZoom 20s ease-in-out infinite alternate;
+}
+@keyframes heroZoom { from { transform: scale(1); } to { transform: scale(1.08); } }
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(10,10,8,0.4) 0%, transparent 50%, rgba(10,10,8,0.2) 100%);
+}
+.hero-content {
+  position: relative; z-index: 2;
+  text-align: center; padding: 0 24px;
+  animation: heroReveal 1.2s var(--ease) 3s both;
+}
+@keyframes heroReveal { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+.hero-eyebrow {
+  font-size: 11px; letter-spacing: 0.5em; text-transform: uppercase;
+  color: var(--gold); font-weight: 400; margin-bottom: 24px;
+  display: flex; align-items: center; justify-content: center; gap: 16px;
+}
+.hero-eyebrow::before, .hero-eyebrow::after {
+  content: ''; width: 40px; height: 1px; background: var(--gold); opacity: 0.5;
+}
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(42px, 7vw, 100px);
+  font-weight: 300; line-height: 1.0;
+  letter-spacing: -0.01em;
+  margin-bottom: 8px;
+}
+.hero-title em { font-style: italic; color: var(--gold2); }
+.hero-subtitle {
+  font-family: var(--font-display);
+  font-size: clamp(16px, 2.5vw, 28px);
+  font-weight: 300; letter-spacing: 0.15em;
+  color: var(--text2); margin-bottom: 48px;
+}
+.hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.btn-primary {
+  padding: 16px 48px;
+  background: var(--gold);
+  color: var(--black);
+  font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+  font-weight: 600; border: none;
+  position: relative; overflow: hidden;
+  transition: all 0.4s var(--ease);
+}
+.btn-primary::before {
+  content: ''; position: absolute; inset: 0;
+  background: var(--white); transform: translateX(-100%);
+  transition: transform 0.4s var(--ease);
+}
+.btn-primary:hover::before { transform: translateX(0); }
+.btn-primary span { position: relative; z-index: 1; }
+.btn-outline {
+  padding: 16px 48px;
+  background: transparent; border: 1px solid rgba(245,242,236,0.3);
+  color: var(--text); font-size: 10px; letter-spacing: 0.3em;
+  text-transform: uppercase; font-weight: 500;
+  transition: all 0.3s;
+}
+.btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+.hero-scroll {
+  position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  animation: heroReveal 1s ease 3.5s both;
+}
+.hero-scroll-text {
+  font-size: 9px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--text3);
+}
+.scroll-line {
+  width: 1px; height: 50px; background: linear-gradient(to bottom, var(--gold), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse { 0%,100% { opacity: 1; transform: scaleY(1); } 50% { opacity: 0.3; transform: scaleY(0.5); } }
+.hero-stat-bar {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  display: flex; justify-content: center; gap: 0;
+  padding: 0 clamp(24px, 8vw, 120px); z-index: 3;
+  border-top: 1px solid var(--border);
+  background: rgba(10,10,8,0.6); backdrop-filter: blur(10px);
+}
+.hero-stat {
+  flex: 1; max-width: 200px;
+  padding: 24px 32px; text-align: center;
+  border-right: 1px solid var(--border);
+  animation: heroReveal 0.8s var(--ease) calc(3.2s + var(--d)) both;
+}
+.hero-stat:last-child { border-right: none; }
+.stat-num {
+  font-family: var(--font-display);
+  font-size: 36px; font-weight: 300; color: var(--gold);
+  line-height: 1; margin-bottom: 4px;
+}
+.stat-label { font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text3); }
+
+/* ═══════════════════════════════════════
+   SECTION COMMON
+═══════════════════════════════════════ */
+section { padding: clamp(80px, 10vw, 140px) clamp(24px, 8vw, 120px); }
+.section-eyebrow {
+  font-size: 10px; letter-spacing: 0.5em; text-transform: uppercase;
+  color: var(--gold); font-weight: 500; margin-bottom: 20px;
+  display: flex; align-items: center; gap: 16px;
+}
+.section-eyebrow::before { content: ''; width: 30px; height: 1px; background: var(--gold); }
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 5vw, 68px);
+  font-weight: 300; line-height: 1.1;
+  margin-bottom: 20px;
+}
+.section-title em { font-style: italic; color: var(--gold2); }
+.section-sub {
+  font-size: 14px; line-height: 1.8; color: var(--text2);
+  max-width: 520px; font-weight: 300; letter-spacing: 0.02em;
+}
+
+/* Reveal animation */
+.reveal {
+  opacity: 0; transform: translateY(50px);
+  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-left {
+  opacity: 0; transform: translateX(-50px);
+  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+}
+.reveal-left.visible { opacity: 1; transform: translateX(0); }
+.reveal-right {
+  opacity: 0; transform: translateX(50px);
+  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+}
+.reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+/* ═══════════════════════════════════════
+   BEFORE/AFTER SLIDER
+═══════════════════════════════════════ */
+#compare { background: var(--black2); }
+.compare-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.compare-slider-container {
+  position: relative; overflow: hidden;
+  aspect-ratio: 4/3; border-radius: 2px;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+}
+.compare-img {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  width: 100%; height: 100%;
+}
+.compare-img.before {
+  background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80');
+}
+.compare-img.after {
+  background-image: url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80');
+  clip-path: inset(0 0 0 50%);
+  transition: clip-path 0.05s linear;
+}
+.compare-handle {
+  position: absolute; top: 0; bottom: 0;
+  left: 50%; transform: translateX(-50%);
+  width: 2px; background: var(--gold);
+  cursor: ew-resize; z-index: 10;
+  transition: left 0.05s linear;
+}
+.compare-handle-btn {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px; height: 44px;
+  background: var(--gold); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--black); font-size: 16px; font-weight: 700;
+  box-shadow: 0 0 20px rgba(201,168,76,0.4);
+  user-select: none;
+}
+.compare-label {
+  position: absolute; top: 20px;
+  font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+  font-weight: 600; padding: 6px 14px;
+  background: rgba(10,10,8,0.8); backdrop-filter: blur(8px);
+}
+.compare-label.before { left: 20px; color: var(--text2); border: 1px solid rgba(255,255,255,0.1); }
+.compare-label.after { right: 20px; color: var(--gold); border: 1px solid var(--border); }
+.compare-info { max-width: 480px; }
+.compare-feature {
+  display: flex; align-items: flex-start; gap: 16px;
+  padding: 20px 0; border-bottom: 1px solid rgba(201,168,76,0.1);
+}
+.compare-feature:last-child { border-bottom: none; }
+.feature-icon {
+  width: 36px; height: 36px; flex-shrink: 0;
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; color: var(--gold);
+}
+.feature-title { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
+.feature-desc { font-size: 12px; color: var(--text3); line-height: 1.6; }
+
+/* ═══════════════════════════════════════
+   PROJECTS
+═══════════════════════════════════════ */
+#projects { background: var(--black); }
+.project-filters {
+  display: flex; gap: 4px; margin-bottom: 48px; flex-wrap: wrap;
+}
+.filter-btn {
+  padding: 10px 24px; background: none;
+  border: 1px solid var(--border); color: var(--text2);
+  font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+  transition: all 0.3s;
+}
+.filter-btn.active, .filter-btn:hover {
+  background: var(--gold); border-color: var(--gold); color: var(--black); font-weight: 600;
+}
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 16px;
+}
+.project-card {
+  position: relative; overflow: hidden;
+  background: var(--black3);
+  transition: transform 0.5s var(--ease);
+}
+.project-card:hover { transform: scale(0.99); }
+.project-card:nth-child(1) { grid-column: span 7; aspect-ratio: 16/9; }
+.project-card:nth-child(2) { grid-column: span 5; aspect-ratio: 4/5; }
+.project-card:nth-child(3) { grid-column: span 4; aspect-ratio: 1; }
+.project-card:nth-child(4) { grid-column: span 4; aspect-ratio: 1; }
+.project-card:nth-child(5) { grid-column: span 4; aspect-ratio: 1; }
+.project-card:nth-child(6) { grid-column: span 6; aspect-ratio: 16/10; }
+.project-card:nth-child(7) { grid-column: span 6; aspect-ratio: 16/10; }
+.project-img {
+  width: 100%; height: 100%;
+  background-size: cover; background-position: center;
+  transition: transform 0.8s var(--ease), filter 0.5s;
+  position: absolute; inset: 0;
+}
+.project-card:hover .project-img {
+  transform: scale(1.06); filter: brightness(0.7);
+}
+.project-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(10,10,8,0.9) 0%, transparent 60%);
+  opacity: 0; transition: opacity 0.4s;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 28px;
+}
+.project-card:hover .project-overlay { opacity: 1; }
+.project-cat {
+  font-size: 9px; letter-spacing: 0.4em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 8px;
+}
+.project-name {
+  font-family: var(--font-display);
+  font-size: clamp(18px, 2.5vw, 28px); font-weight: 300;
+  line-height: 1.2; margin-bottom: 12px;
+}
+.project-link {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--gold); font-weight: 500;
+  transform: translateX(-8px); opacity: 0;
+  transition: transform 0.4s var(--ease), opacity 0.4s;
+}
+.project-card:hover .project-link { transform: translateX(0); opacity: 1; }
+.project-num {
+  position: absolute; top: 20px; right: 20px;
+  font-family: var(--font-display); font-size: 11px;
+  color: rgba(201,168,76,0.4); letter-spacing: 0.1em;
+}
+.project-tag {
+  position: absolute; top: 20px; left: 20px;
+  font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase;
+  padding: 6px 12px; background: rgba(10,10,8,0.6);
+  backdrop-filter: blur(8px); color: var(--text2);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.hidden-card { display: none; }
+.hidden-card.visible { display: block; }
+
+/* ═══════════════════════════════════════
+   ABOUT
+═══════════════════════════════════════ */
+#about { background: var(--black2); }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 8vw, 100px); align-items: center; }
+.about-img-wrap {
+  position: relative;
+}
+.about-img {
+  width: 100%; aspect-ratio: 3/4;
+  background: url('https://images.unsplash.com/photo-1600607687644-aac4c3eac7f4?w=800&q=80') center/cover;
+  position: relative; z-index: 1;
+}
+.about-img-frame {
+  position: absolute; top: -20px; left: -20px; right: 20px; bottom: 20px;
+  border: 1px solid var(--border); z-index: 0;
+}
+.about-img-badge {
+  position: absolute; bottom: -24px; right: -24px; z-index: 2;
+  width: 120px; height: 120px;
+  background: var(--gold);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.badge-num {
+  font-family: var(--font-display); font-size: 40px; font-weight: 300; color: var(--black); line-height: 1;
+}
+.badge-text { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--black); opacity: 0.7; }
+.about-text p {
+  font-size: 14px; line-height: 1.9; color: var(--text2);
+  font-weight: 300; margin-bottom: 20px; letter-spacing: 0.02em;
+}
+.about-philosophy {
+  padding: 28px; border-left: 2px solid var(--gold);
+  background: var(--glass2); margin: 32px 0;
+}
+.about-philosophy p {
+  font-family: var(--font-display); font-size: 20px; font-weight: 300;
+  font-style: italic; line-height: 1.6; color: var(--text); margin: 0;
+}
+.about-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); margin-top: 40px; }
+.about-stat {
+  background: var(--black2); padding: 24px 16px; text-align: center;
+}
+.about-stat-num {
+  font-family: var(--font-display); font-size: 36px; font-weight: 300; color: var(--gold); line-height: 1;
+}
+.about-stat-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text3); margin-top: 4px; }
+
+/* ═══════════════════════════════════════
+   SERVICES
+═══════════════════════════════════════ */
+#services { background: var(--black); }
+.services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1px; background: var(--border); margin-top: 64px; }
+.service-card {
+  background: var(--black); padding: 48px 36px;
+  position: relative; overflow: hidden;
+  transition: background 0.4s;
+  group: true;
+}
+.service-card::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(201,168,76,0.06), transparent);
+  opacity: 0; transition: opacity 0.4s;
+}
+.service-card:hover { background: var(--black2); }
+.service-card:hover::before { opacity: 1; }
+.service-num {
+  font-family: var(--font-display); font-size: 48px; font-weight: 300;
+  color: rgba(201,168,76,0.12); line-height: 1; margin-bottom: 24px;
+  transition: color 0.4s;
+}
+.service-card:hover .service-num { color: rgba(201,168,76,0.25); }
+.service-icon {
+  width: 52px; height: 52px; margin-bottom: 24px;
+  border: 1px solid var(--border); display: flex; align-items: center; justify-content: center;
+  font-size: 20px; transition: all 0.4s; background: var(--black2);
+}
+.service-card:hover .service-icon { background: var(--gold); border-color: var(--gold); color: var(--black); }
+.service-title {
+  font-family: var(--font-display); font-size: 24px; font-weight: 400;
+  margin-bottom: 16px; line-height: 1.2;
+}
+.service-desc { font-size: 13px; color: var(--text2); line-height: 1.8; font-weight: 300; margin-bottom: 24px; }
+.service-arrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--gold); opacity: 0; transform: translateY(8px);
+  transition: all 0.4s var(--ease);
+}
+.service-card:hover .service-arrow { opacity: 1; transform: translateY(0); }
+
+/* ═══════════════════════════════════════
+   TESTIMONIALS
+═══════════════════════════════════════ */
+#testimonials { background: var(--black2); overflow: hidden; }
+.testimonials-inner { display: grid; grid-template-columns: 300px 1fr; gap: 80px; align-items: start; }
+.testimonial-track-wrap { overflow: hidden; }
+.testimonial-track {
+  display: flex; gap: 24px;
+  transition: transform 0.7s var(--ease);
+}
+.testimonial-card {
+  flex: 0 0 100%; padding: 40px;
+  background: var(--black); border: 1px solid var(--border);
+  position: relative;
+}
+.testimonial-quote {
+  font-family: var(--font-display); font-size: 80px; font-weight: 300;
+  color: var(--gold); opacity: 0.3; line-height: 0.8; margin-bottom: 24px;
+}
+.testimonial-text {
+  font-family: var(--font-display); font-size: clamp(18px, 2.5vw, 24px);
+  font-weight: 300; font-style: italic; line-height: 1.6; color: var(--text);
+  margin-bottom: 32px;
+}
+.testimonial-author { display: flex; align-items: center; gap: 16px; }
+.author-avatar {
+  width: 48px; height: 48px; border-radius: 50%;
+  background-size: cover; background-position: center;
+  border: 2px solid var(--border);
+}
+.author-name { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+.author-loc { font-size: 11px; color: var(--text3); letter-spacing: 0.1em; }
+.testimonial-stars { color: var(--gold); font-size: 12px; margin-bottom: 8px; letter-spacing: 2px; }
+.testimonial-nav { display: flex; gap: 12px; margin-top: 32px; }
+.t-nav-btn {
+  width: 44px; height: 44px; border: 1px solid var(--border);
+  background: none; color: var(--text2); font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.3s;
+}
+.t-nav-btn:hover { background: var(--gold); border-color: var(--gold); color: var(--black); }
+.t-dots { display: flex; gap: 8px; align-items: center; }
+.t-dot {
+  width: 24px; height: 1px; background: var(--border); cursor: pointer;
+  transition: all 0.3s;
+}
+.t-dot.active { background: var(--gold); width: 40px; }
+.testimonials-left h2 { margin-bottom: 24px; }
+
+/* ═══════════════════════════════════════
+   GALLERY
+═══════════════════════════════════════ */
+#gallery { background: var(--black); padding-bottom: 0; }
+.gallery-header { margin-bottom: 48px; display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+.gallery-track-outer { overflow: hidden; }
+.gallery-track {
+  display: flex; gap: 16px;
+  transition: transform 0.7s var(--ease);
+  width: max-content;
+}
+.gallery-item {
+  width: 380px; flex-shrink: 0; aspect-ratio: 4/3;
+  background-size: cover; background-position: center;
+  position: relative; overflow: hidden;
+  transition: transform 0.4s var(--ease);
+}
+.gallery-item:hover { transform: scale(0.98); }
+.gallery-item-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(10,10,8,0.7) 0%, transparent 60%);
+  opacity: 0; transition: opacity 0.4s;
+  display: flex; align-items: flex-end; padding: 24px;
+}
+.gallery-item:hover .gallery-item-overlay { opacity: 1; }
+.gallery-item-title { font-family: var(--font-display); font-size: 18px; font-weight: 300; }
+.gallery-controls {
+  display: flex; gap: 8px; margin-top: 24px; justify-content: center;
+  padding: 24px;
+}
+.g-btn {
+  width: 44px; height: 44px; border: 1px solid var(--border);
+  background: none; color: var(--text2); font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.3s;
+}
+.g-btn:hover { background: var(--gold); border-color: var(--gold); color: var(--black); }
+.gallery-progress {
+  flex: 1; max-width: 300px; height: 1px;
+  background: var(--border); position: relative;
+  align-self: center;
+}
+.gallery-progress-fill {
+  position: absolute; inset-y: 0; left: 0;
+  background: var(--gold); transition: width 0.7s var(--ease);
+}
+
+/* ═══════════════════════════════════════
+   CONTACT
+═══════════════════════════════════════ */
+#contact { background: var(--black2); }
+.contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: clamp(40px, 8vw, 100px); }
+.contact-info-item {
+  display: flex; align-items: flex-start; gap: 20px;
+  padding: 24px 0; border-bottom: 1px solid rgba(201,168,76,0.1);
+}
+.contact-icon {
+  width: 44px; height: 44px; flex-shrink: 0;
+  border: 1px solid var(--border); display: flex; align-items: center; justify-content: center;
+  font-size: 16px; color: var(--gold);
+}
+.contact-info-title { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text3); margin-bottom: 6px; }
+.contact-info-val { font-family: var(--font-display); font-size: 18px; font-weight: 300; }
+.contact-form { display: flex; flex-direction: column; gap: 0; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; }
+.form-group { position: relative; }
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%; padding: 20px 20px;
+  background: var(--black); border: none; border-bottom: 1px solid var(--border);
+  color: var(--text); font-family: var(--font-body); font-size: 13px; font-weight: 300;
+  outline: none; transition: border-color 0.3s, background 0.3s;
+  -webkit-appearance: none; border-radius: 0;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--gold); background: rgba(201,168,76,0.03);
+}
+.form-group input::placeholder,
+.form-group textarea::placeholder { color: var(--text3); }
+.form-group select { color: var(--text3); cursor: pointer; }
+.form-group select option { background: var(--black2); color: var(--text); }
+.form-group textarea { height: 120px; resize: none; }
+.form-label {
+  position: absolute; top: 20px; left: 20px;
+  font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--text3); pointer-events: none; transition: all 0.3s;
+}
+.form-group input:focus ~ .form-label,
+.form-group input:not(:placeholder-shown) ~ .form-label {
+  top: 6px; font-size: 8px; color: var(--gold);
+}
+.form-submit {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 16px; margin-top: 1px;
+  background: var(--black); padding: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.submit-btn {
+  padding: 16px 48px; background: var(--gold);
+  color: var(--black); font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+  font-weight: 600; border: none; position: relative; overflow: hidden;
+  transition: all 0.4s;
+}
+.submit-btn:hover { background: var(--gold2); }
+.submit-btn.sending { opacity: 0.7; pointer-events: none; }
+.submit-note { font-size: 11px; color: var(--text3); letter-spacing: 0.05em; }
+.form-success {
+  display: none; padding: 40px; text-align: center;
+  border: 1px solid var(--border); background: var(--glass2);
+}
+.form-success.show { display: block; animation: fadeIn 0.5s ease; }
+.success-icon { font-size: 40px; margin-bottom: 16px; }
+.success-title { font-family: var(--font-display); font-size: 28px; font-weight: 300; margin-bottom: 12px; }
+.success-text { font-size: 13px; color: var(--text2); line-height: 1.7; }
+
+/* ═══════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════ */
+footer {
+  background: var(--black); border-top: 1px solid var(--border);
+  padding: 80px clamp(24px, 8vw, 120px) 40px;
+}
+.footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 64px; }
+.footer-brand .nav-logo { font-size: 24px; margin-bottom: 20px; display: block; }
+.footer-brand p { font-size: 13px; color: var(--text2); line-height: 1.8; max-width: 280px; margin-bottom: 24px; font-weight: 300; }
+.social-links { display: flex; gap: 12px; }
+.social-link {
+  width: 36px; height: 36px; border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; color: var(--text2); transition: all 0.3s;
+}
+.social-link:hover { background: var(--gold); border-color: var(--gold); color: var(--black); }
+.footer-col h4 {
+  font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 24px; font-weight: 500;
+}
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.footer-col ul a {
+  font-size: 13px; color: var(--text2); font-weight: 300;
+  transition: color 0.3s; letter-spacing: 0.02em;
+}
+.footer-col ul a:hover { color: var(--gold); }
+.footer-bottom {
+  padding-top: 32px; border-top: 1px solid rgba(201,168,76,0.1);
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+}
+.footer-bottom p { font-size: 11px; color: var(--text3); letter-spacing: 0.1em; }
+
+/* ═══════════════════════════════════════
+   BACK TO TOP
+═══════════════════════════════════════ */
+.back-top {
+  position: fixed; bottom: 32px; right: 32px; z-index: 900;
+  width: 44px; height: 44px; background: var(--gold); color: var(--black);
+  border: none; display: flex; align-items: center; justify-content: center;
+  font-size: 18px; opacity: 0; transform: translateY(20px);
+  transition: all 0.4s var(--ease);
+}
+.back-top.visible { opacity: 1; transform: translateY(0); }
+.back-top:hover { background: var(--gold2); }
+
+/* ═══════════════════════════════════════
+   GOLD LINE DECORATION
+═══════════════════════════════════════ */
+.gold-line {
+  width: 60px; height: 1px; background: var(--gold); margin: 24px 0;
+}
+.gold-line-center { margin: 24px auto; }
+
+/* ═══════════════════════════════════════
+   KEYFRAMES
+═══════════════════════════════════════ */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .projects-grid { grid-template-columns: 1fr 1fr; }
+  .project-card:nth-child(n) { grid-column: span 6; aspect-ratio: 4/3; }
+  .testimonials-inner { grid-template-columns: 1fr; }
+  .testimonials-left h2 { font-size: 36px; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+  .compare-wrap { grid-template-columns: 1fr; gap: 48px; }
+}
+@media (max-width: 768px) {
+  .nav-links, .nav-cta { display: none; }
+  .hamburger { display: flex; }
+  .about-grid { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .projects-grid { grid-template-columns: 1fr; }
+  .project-card:nth-child(n) { grid-column: span 12; aspect-ratio: 4/3; }
+  .footer-top { grid-template-columns: 1fr; }
+  .hero-stat-bar { display: none; }
+  .about-stats { grid-template-columns: repeat(3, 1fr); }
+  .gallery-item { width: 280px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Loader -->
+<div id="loader">
+  <div class="loader-logo">Badwal <span>Architect</span></div>
+  <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+  <div class="loader-count" id="loaderCount">0%</div>
+</div>
+
+<!-- Back to top -->
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- ═══════ NAVBAR ═══════ -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">Badwal <span>·</span> Architect</a>
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#testimonials">Testimonials</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="theme-btn" id="themeToggle" title="Toggle theme">☀️</button>
+    <a href="#contact" class="nav-cta">Get In Touch</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#projects" onclick="closeMobile()">Projects</a>
+  <a href="#about" onclick="closeMobile()">About</a>
+  <a href="#services" onclick="closeMobile()">Services</a>
+  <a href="#testimonials" onclick="closeMobile()">Testimonials</a>
+  <a href="#contact" onclick="closeMobile()">Contact</a>
+</div>
+
+<!-- ═══════ HERO ═══════ -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Est. 2008 &nbsp;·&nbsp; Award-Winning Studio</div>
+    <h1 class="hero-title">Designing <em>Dreams</em><br>into Reality</h1>
+    <p class="hero-subtitle">Badwal Architect — Where Vision Meets Craft</p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn-primary"><span>View Projects</span></a>
+      <a href="#contact" class="btn-outline">Start a Project</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span class="hero-scroll-text">Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+  <div class="hero-stat-bar">
+    <div class="hero-stat" style="--d:0s"><div class="stat-num">250+</div><div class="stat-label">Projects Completed</div></div>
+    <div class="hero-stat" style="--d:0.1s"><div class="stat-num">15+</div><div class="stat-label">Years Experience</div></div>
+    <div class="hero-stat" style="--d:0.2s"><div class="stat-num">40+</div><div class="stat-label">Awards Won</div></div>
+    <div class="hero-stat" style="--d:0.3s"><div class="stat-num">98%</div><div class="stat-label">Client Satisfaction</div></div>
+  </div>
+</section>
+
+<!-- ═══════ BEFORE/AFTER ═══════ -->
+<section id="compare">
+  <div class="compare-wrap">
+    <div class="reveal-left">
+      <div class="compare-slider-container" id="compareContainer">
+        <div class="compare-img before"></div>
+        <div class="compare-img after" id="compareAfter"></div>
+        <div class="compare-label before">Before</div>
+        <div class="compare-label after">After</div>
+        <div class="compare-handle" id="compareHandle">
+          <div class="compare-handle-btn">⟺</div>
+        </div>
+      </div>
+      <p style="font-size:11px;color:var(--text3);text-align:center;margin-top:16px;letter-spacing:0.2em;">DRAG TO COMPARE</p>
+    </div>
+    <div class="compare-info reveal-right">
+      <div class="section-eyebrow">Transformation</div>
+      <h2 class="section-title">The <em>Badwal</em><br>Difference</h2>
+      <p class="section-sub" style="margin-bottom:40px;">We transform ordinary spaces into extraordinary experiences. Every project is a journey from concept to creation, driven by precision and passion.</p>
+      <div class="compare-feature">
+        <div class="feature-icon">✦</div>
+        <div><div class="feature-title">Concept to Completion</div><div class="feature-desc">Full-service architecture from initial design to final handover</div></div>
+      </div>
+      <div class="compare-feature">
+        <div class="feature-icon">◈</div>
+        <div><div class="feature-title">Premium Materials</div><div class="feature-desc">We source only the finest materials from trusted global suppliers</div></div>
+      </div>
+      <div class="compare-feature">
+        <div class="feature-icon">◇</div>
+        <div><div class="feature-title">On-Time Delivery</div><div class="feature-desc">Disciplined project management ensuring your timeline is respected</div></div>
+      </div>
+      <div class="compare-feature">
+        <div class="feature-icon">◎</div>
+        <div><div class="feature-title">Sustainable Design</div><div class="feature-desc">Eco-conscious approach integrated into every design decision</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ PROJECTS ═══════ -->
+<section id="projects">
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:24px;margin-bottom:40px;">
+    <div>
+      <div class="section-eyebrow reveal">Our Work</div>
+      <h2 class="section-title reveal">Selected <em>Projects</em></h2>
+    </div>
+    <div class="project-filters reveal">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="Interior">Interior</button>
+      <button class="filter-btn" data-filter="Exterior">Exterior</button>
+      <button class="filter-btn" data-filter="Commercial">Commercial</button>
+      <button class="filter-btn" data-filter="Residential">Residential</button>
+    </div>
+  </div>
+  <div class="projects-grid reveal" id="projectsGrid">
+    <div class="project-card" data-cat="Residential">
+      <div class="project-img" style="background-image:url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=80')"></div>
+      <div class="project-overlay">
+        <div class="project-cat">Residential</div>
+        <h3 class="project-name">The Serene Villa, Chandigarh</h3>
+        <span class="project-link">View Project →</span>
+      </div>
+      <div class="project-num">01</div>
+    </div>
+    <div class="project-card" data-cat="Interior">
+      <div class="project-img" style="background-image:url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&q=80')"></div>
+      <div class="project-overlay">
+        <div class="project-cat">Interior</div>
+        <h3 class="project-name">Luxury Penthouse Suite</h3>
+        <span class="project-link">View Project →</span>
+      </div>
+      <div class="project-num">02</div>
+    </div>
+    <div class="project-card" data-cat="Commercial">
+      <div class="project-img" style="background-image:url('https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=80')"></div>
+      <div class="project-overlay">
+        <div class="project-cat">Commercial</div>
+        <h3 class="project-name">The Grand Tower</h3>
+        <span class="project-link">View Project →</span>
+      </div>
+      <div class="project-num">03</div>
+    </div>
+    <div class="project-card" data-cat="Interior">
+      <div class="project-img" style="background-image:url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80')"></div>
+      <div class="project-overlay">
+        <div class="project-cat">Interior</div>
+        <h3 class="project-name">Minimalist Kitchen Design</h3>
+        <span class="project-link">View Project →</span>
+      </div>
+      <div class="project-num">04</div>
+    </div>
+    <div class="project-card" data-cat="Exterior">
+      <div class="project-img" style="background-image:url('https://images.unsplash.com/photo-1523217582562-09d0def993a6?w=800&q=80')"></div>
+      <div class="project-overlay">
+        <div class="project-cat">Exterior</div>
+        <h3 class="project-name">Modern Facade Renewal</h3>
+        <span class="project-link">View Project →</span>
+      </div>
+      <div class="project-num">05</div>
+    </div>
+    <div class="project-card" data-cat="Residential">
+      <div class="project-img" style="background-image:url('https://images.unsplash.com/photo-1613977257363-707ba9348227?w=800&q=80')"></div>
+      <div class="project-overlay">
+        <div class="project-cat">Residential</div>
+        <h3 class="project-name">Hillside Family Home</h3>
+        <span class="project-link">View Project →</span>
+      </div>
+      <div class="project-num">06</div>
+    </div>
+    <div class="project-card" data-cat="Commercial">
+      <div class="project-img" style="background-image:url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=900&q=80')"></div>
+      <div class="project-overlay">
+        <div class="project-cat">Commercial</div>
+        <h3 class="project-name">Corporate Campus, Mohali</h3>
+        <span class="project-link">View Project →</span>
+      </div>
+      <div class="project-num">07</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ ABOUT ═══════ -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-img-wrap reveal-left">
+      <div class="about-img-frame"></div>
+      <div class="about-img"></div>
+      <div class="about-img-badge">
+        <div class="badge-num">15</div>
+        <div class="badge-text">Years</div>
+      </div>
+    </div>
+    <div class="about-text reveal-right">
+      <div class="section-eyebrow">About Us</div>
+      <h2 class="section-title">The Mind Behind <em>Badwal</em> Architect</h2>
+      <div class="gold-line"></div>
+      <p>Badwal Architect is a premier architecture and design studio founded on the belief that every space has the potential to be extraordinary. With over 15 years of crafting environments that blend aesthetics with functionality, we've become the trusted name for discerning clients across North India.</p>
+      <p>Our approach is deeply rooted in understanding people — how they live, work, and aspire. We don't simply design buildings; we create experiences that resonate for generations.</p>
+      <div class="about-philosophy">
+        <p>"Architecture is not just about shelter. It is about shaping the human experience — every corner, every light, every proportion tells a story."</p>
+      </div>
+      <p>From intimate residential retreats to landmark commercial complexes, each Badwal project is a testament to meticulous craftsmanship and timeless design philosophy.</p>
+      <div class="about-stats">
+        <div class="about-stat"><div class="about-stat-num">250+</div><div class="about-stat-label">Projects</div></div>
+        <div class="about-stat"><div class="about-stat-num">40+</div><div class="about-stat-label">Awards</div></div>
+        <div class="about-stat"><div class="about-stat-num">15+</div><div class="about-stat-label">Years</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ SERVICES ═══════ -->
+<section id="services">
+  <div style="max-width:600px;" class="reveal">
+    <div class="section-eyebrow">What We Do</div>
+    <h2 class="section-title">Our <em>Services</em></h2>
+    <p class="section-sub">Comprehensive design solutions tailored to your vision, delivered with uncompromising attention to detail.</p>
+  </div>
+  <div class="services-grid reveal">
+    <div class="service-card">
+      <div class="service-num">01</div>
+      <div class="service-icon">🏛</div>
+      <h3 class="service-title">Architecture Design</h3>
+      <p class="service-desc">From conceptual sketches to construction documentation. We design buildings that are structurally sound, aesthetically refined, and tailored to your lifestyle.</p>
+      <span class="service-arrow">Learn More →</span>
+    </div>
+    <div class="service-card">
+      <div class="service-num">02</div>
+      <div class="service-icon">🪑</div>
+      <h3 class="service-title">Interior Design</h3>
+      <p class="service-desc">Curated interiors that reflect your personality. We select every material, texture, and fixture with precision to create cohesive, luxurious spaces.</p>
+      <span class="service-arrow">Learn More →</span>
+    </div>
+    <div class="service-card">
+      <div class="service-num">03</div>
+      <div class="service-icon">🎨</div>
+      <h3 class="service-title">3D Visualization</h3>
+      <p class="service-desc">Photorealistic renders and immersive walkthroughs that let you experience your space before a single brick is laid. See your dream before it's built.</p>
+      <span class="service-arrow">Learn More →</span>
+    </div>
+    <div class="service-card">
+      <div class="service-num">04</div>
+      <div class="service-icon">🔨</div>
+      <h3 class="service-title">Renovation Planning</h3>
+      <p class="service-desc">Breathing new life into existing spaces. We assess, plan, and execute renovations that honor the original structure while elevating every detail.</p>
+      <span class="service-arrow">Learn More →</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ TESTIMONIALS ═══════ -->
+<section id="testimonials">
+  <div class="testimonials-inner">
+    <div class="testimonials-left">
+      <div class="section-eyebrow reveal">Testimonials</div>
+      <h2 class="section-title reveal">What Clients <em>Say</em></h2>
+      <p class="section-sub reveal" style="margin-bottom:40px;">Our work speaks through the words of those who live in it every day.</p>
+      <div class="testimonial-nav reveal">
+        <button class="t-nav-btn" id="tPrev">←</button>
+        <button class="t-nav-btn" id="tNext">→</button>
+      </div>
+      <div class="t-dots reveal" id="tDots" style="margin-top:20px;"></div>
+    </div>
+    <div class="testimonial-track-wrap reveal-right">
+      <div class="testimonial-track" id="testimonialTrack">
+        <div class="testimonial-card">
+          <div class="testimonial-quote">"</div>
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">Badwal Architect transformed our house into a home we couldn't have imagined. The attention to detail, the quality of materials, and the seamless process made every rupee worth it. Truly world-class.</p>
+          <div class="testimonial-author">
+            <div class="author-avatar" style="background-image:url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80')"></div>
+            <div><div class="author-name">Rajesh Sharma</div><div class="author-loc">Chandigarh, Punjab</div></div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-quote">"</div>
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">The 3D visualization alone was extraordinary — I knew exactly what my office would look like before construction began. The final result exceeded even those renderings. Exceptional team.</p>
+          <div class="testimonial-author">
+            <div class="author-avatar" style="background-image:url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80')"></div>
+            <div><div class="author-name">Priya Mehta</div><div class="author-loc">Mohali, Punjab</div></div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-quote">"</div>
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">We commissioned Badwal Architect for our commercial complex and the result is a landmark. They balanced aesthetic ambition with practical function beautifully. Delivered on time, on budget.</p>
+          <div class="testimonial-author">
+            <div class="author-avatar" style="background-image:url('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80')"></div>
+            <div><div class="author-name">Harpreet Singh</div><div class="author-loc">Ludhiana, Punjab</div></div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-quote">"</div>
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">Our villa renovation was handled with incredible care and professionalism. The team understood our vision and elevated it far beyond what we imagined. I recommend Badwal without reservation.</p>
+          <div class="testimonial-author">
+            <div class="author-avatar" style="background-image:url('https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80')"></div>
+            <div><div class="author-name">Sunita Kapoor</div><div class="author-loc">Amritsar, Punjab</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ GALLERY ═══════ -->
+<section id="gallery">
+  <div class="gallery-header">
+    <div>
+      <div class="section-eyebrow reveal">Gallery</div>
+      <h2 class="section-title reveal">Project <em>Showcase</em></h2>
+    </div>
+  </div>
+  <div class="gallery-track-outer">
+    <div class="gallery-track" id="galleryTrack">
+      <div class="gallery-item" style="background-image:url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80')"><div class="gallery-item-overlay"><div class="gallery-item-title">Modern Living Room</div></div></div>
+      <div class="gallery-item" style="background-image:url('https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800&q=80')"><div class="gallery-item-overlay"><div class="gallery-item-title">Luxury Bathroom</div></div></div>
+      <div class="gallery-item" style="background-image:url('https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=800&q=80')"><div class="gallery-item-overlay"><div class="gallery-item-title">Master Bedroom</div></div></div>
+      <div class="gallery-item" style="background-image:url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80')"><div class="gallery-item-overlay"><div class="gallery-item-title">Designer Kitchen</div></div></div>
+      <div class="gallery-item" style="background-image:url('https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80')"><div class="gallery-item-overlay"><div class="gallery-item-title">Poolside Villa</div></div></div>
+      <div class="gallery-item" style="background-image:url('https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=800&q=80')"><div class="gallery-item-overlay"><div class="gallery-item-title">Corporate Office</div></div></div>
+      <div class="gallery-item" style="background-image:url('https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&q=80')"><div class="gallery-item-overlay"><div class="gallery-item-title">Dining Space</div></div></div>
+      <div class="gallery-item" style="background-image:url('https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800&q=80')"><div class="gallery-item-overlay"><div class="gallery-item-title">Facade Design</div></div></div>
+    </div>
+  </div>
+  <div class="gallery-controls">
+    <button class="g-btn" id="gPrev">←</button>
+    <div class="gallery-progress"><div class="gallery-progress-fill" id="galleryFill" style="width:12.5%"></div></div>
+    <button class="g-btn" id="gNext">→</button>
+  </div>
+</section>
+
+<!-- ═══════ CONTACT ═══════ -->
+<section id="contact">
+  <div class="contact-grid">
+    <div class="reveal-left">
+      <div class="section-eyebrow">Get In Touch</div>
+      <h2 class="section-title">Start Your <em>Dream</em> Project</h2>
+      <div class="gold-line"></div>
+      <p class="section-sub" style="margin-bottom:48px;">Ready to transform your space? We'd love to hear about your vision. Let's create something extraordinary together.</p>
+      <div class="contact-info-item">
+        <div class="contact-icon">📍</div>
+        <div><div class="contact-info-title">Studio Address</div><div class="contact-info-val">SCO 42-43, Sector 17, Chandigarh — 160017</div></div>
+      </div>
+      <div class="contact-info-item">
+        <div class="contact-icon">📞</div>
+        <div><div class="contact-info-title">Phone</div><div class="contact-info-val">+91 98765 43210</div></div>
+      </div>
+      <div class="contact-info-item">
+        <div class="contact-icon">✉</div>
+        <div><div class="contact-info-title">Email</div><div class="contact-info-val">studio@badwalarchitect.com</div></div>
+      </div>
+      <div class="contact-info-item">
+        <div class="contact-icon">🕐</div>
+        <div><div class="contact-info-title">Studio Hours</div><div class="contact-info-val">Mon – Sat, 9:00 AM – 7:00 PM</div></div>
+      </div>
+    </div>
+    <div class="reveal-right">
+      <div class="contact-form" id="contactForm">
+        <div class="form-row">
+          <div class="form-group"><input type="text" id="fname" placeholder=" " required/><label class="form-label" for="fname">Full Name *</label></div>
+          <div class="form-group"><input type="tel" id="fphone" placeholder=" " required/><label class="form-label" for="fphone">Phone Number *</label></div>
+        </div>
+        <div class="form-group"><input type="email" id="femail" placeholder=" " required/><label class="form-label" for="femail">Email Address *</label></div>
+        <div class="form-row">
+          <div class="form-group">
+            <select id="ftype">
+              <option value="" disabled selected>Project Type</option>
+              <option>Residential Design</option>
+              <option>Commercial Design</option>
+              <option>Interior Design</option>
+              <option>Renovation</option>
+              <option>3D Visualization</option>
+              <option>Consultation</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <select id="fbudget">
+              <option value="" disabled selected>Budget Range</option>
+              <option>₹10L – ₹25L</option>
+              <option>₹25L – ₹50L</option>
+              <option>₹50L – ₹1Cr</option>
+              <option>₹1Cr – ₹5Cr</option>
+              <option>₹5Cr+</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group"><textarea id="fmessage" placeholder="Tell us about your project, timeline, and any specific requirements..."></textarea></div>
+        <div class="form-submit">
+          <div>
+            <p class="submit-note">✓ &nbsp;Response within 24 hours</p>
+          </div>
+          <button type="button" class="submit-btn" id="submitBtn" onclick="submitForm()">
+            Send Enquiry →
+          </button>
+        </div>
+      </div>
+      <div class="form-success" id="formSuccess">
+        <div class="success-icon">✦</div>
+        <h3 class="success-title">Thank You for Reaching Out</h3>
+        <p class="success-text">Your enquiry has been received. Our team will review your project details and get back to you within 24 hours. We look forward to creating something extraordinary with you.</p>
+        <div class="gold-line gold-line-center" style="width:60px;margin:24px auto;"></div>
+        <p style="font-size:12px;color:var(--text3);letter-spacing:0.1em;">— The Badwal Architect Team</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ FOOTER ═══════ -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <span class="nav-logo">Badwal <span style="color:var(--gold)">·</span> Architect</span>
+      <p>A premier architecture and interior design studio crafting timeless spaces across Punjab and beyond. Where vision meets craftsmanship.</p>
+      <div class="social-links">
+        <a class="social-link" href="#" title="Instagram">📷</a>
+        <a class="social-link" href="#" title="Facebook">f</a>
+        <a class="social-link" href="#" title="LinkedIn">in</a>
+        <a class="social-link" href="#" title="Pinterest">P</a>
+        <a class="social-link" href="#" title="YouTube">▶</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#services">Architecture Design</a></li>
+        <li><a href="#services">Interior Design</a></li>
+        <li><a href="#services">3D Visualization</a></li>
+        <li><a href="#services">Renovation Planning</a></li>
+        <li><a href="#services">Landscape Design</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Studio</h4>
+      <ul>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#testimonials">Testimonials</a></li>
+        <li><a href="#contact">Careers</a></li>
+        <li><a href="#contact">Press</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="tel:+919876543210">+91 98765 43210</a></li>
+        <li><a href="mailto:studio@badwalarchitect.com">studio@badwalarchitect.com</a></li>
+        <li><a href="#">Sector 17, Chandigarh</a></li>
+        <li><a href="#">Mon–Sat, 9AM–7PM</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2024 Badwal Architect. All rights reserved.</p>
+    <p style="color:var(--gold);letter-spacing:0.3em;font-family:var(--font-display);font-size:13px;font-style:italic;">Designing Dreams into Reality</p>
+    <p>Privacy Policy &nbsp;·&nbsp; Terms of Use</p>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════
+   LOADER COUNTER
+═══════════════════════════════════════ */
+let count = 0;
+const countEl = document.getElementById('loaderCount');
+const countInterval = setInterval(() => {
+  count += Math.floor(Math.random() * 8) + 3;
+  if (count >= 100) { count = 100; clearInterval(countInterval); }
+  countEl.textContent = count + '%';
+}, 60);
+
+/* ═══════════════════════════════════════
+   CURSOR
+═══════════════════════════════════════ */
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+});
+function animateRing() {
+  rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+// Hide on mobile
+if ('ontouchstart' in window) { cursor.style.display = 'none'; ring.style.display = 'none'; document.body.style.cursor = 'auto'; }
+
+/* ═══════════════════════════════════════
+   NAVBAR SCROLL
+═══════════════════════════════════════ */
+const navbar = document.getElementById('navbar');
+const backTop = document.getElementById('backTop');
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  if (y > 80) navbar.classList.add('scrolled'); else navbar.classList.remove('scrolled');
+  if (y > 500) backTop.classList.add('visible'); else backTop.classList.remove('visible');
+});
+
+/* ═══════════════════════════════════════
+   MOBILE MENU
+═══════════════════════════════════════ */
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+function closeMobile() { mobileMenu.classList.remove('open'); }
+
+/* ═══════════════════════════════════════
+   THEME TOGGLE
+═══════════════════════════════════════ */
+const themeBtn = document.getElementById('themeToggle');
+let theme = 'dark';
+themeBtn.addEventListener('click', () => {
+  theme = theme === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', theme);
+  themeBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
+});
+
+/* ═══════════════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════════════ */
+const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), 100);
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+revealEls.forEach(el => observer.observe(el));
+
+/* ═══════════════════════════════════════
+   BEFORE/AFTER SLIDER
+═══════════════════════════════════════ */
+const container = document.getElementById('compareContainer');
+const handle = document.getElementById('compareHandle');
+const afterEl = document.getElementById('compareAfter');
+let isDragging = false;
+
+function setCompare(x) {
+  const rect = container.getBoundingClientRect();
+  let pct = Math.max(0, Math.min(100, ((x - rect.left) / rect.width) * 100));
+  handle.style.left = pct + '%';
+  afterEl.style.clipPath = `inset(0 0 0 ${pct}%)`;
+}
+container.addEventListener('mousedown', e => { isDragging = true; setCompare(e.clientX); });
+container.addEventListener('touchstart', e => { isDragging = true; setCompare(e.touches[0].clientX); }, {passive:true});
+document.addEventListener('mousemove', e => { if (isDragging) setCompare(e.clientX); });
+document.addEventListener('touchmove', e => { if (isDragging) setCompare(e.touches[0].clientX); }, {passive:true});
+document.addEventListener('mouseup', () => isDragging = false);
+document.addEventListener('touchend', () => isDragging = false);
+
+/* ═══════════════════════════════════════
+   PROJECT FILTER
+═══════════════════════════════════════ */
+const filterBtns = document.querySelectorAll('.filter-btn');
+const projectCards = document.querySelectorAll('.project-card');
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = btn.dataset.filter;
+    projectCards.forEach(card => {
+      const match = f === 'all' || card.dataset.cat === f;
+      card.style.display = match ? 'block' : 'none';
+      if (match) { card.style.animation = 'none'; card.offsetHeight; card.style.animation = 'fadeIn 0.4s ease'; }
+    });
+  });
+});
+
+/* ═══════════════════════════════════════
+   TESTIMONIALS SLIDER
+═══════════════════════════════════════ */
+const tTrack = document.getElementById('testimonialTrack');
+const tCards = tTrack.querySelectorAll('.testimonial-card');
+const tDotsEl = document.getElementById('tDots');
+let tIdx = 0;
+const tTotal = tCards.length;
+
+// Build dots
+tCards.forEach((_, i) => {
+  const dot = document.createElement('div');
+  dot.className = 't-dot' + (i === 0 ? ' active' : '');
+  dot.addEventListener('click', () => goTo(i));
+  tDotsEl.appendChild(dot);
+});
+
+function goTo(i) {
+  tIdx = (i + tTotal) % tTotal;
+  tTrack.style.transform = `translateX(-${tIdx * 100}%)`;
+  document.querySelectorAll('.t-dot').forEach((d, j) => d.classList.toggle('active', j === tIdx));
+}
+document.getElementById('tPrev').addEventListener('click', () => goTo(tIdx - 1));
+document.getElementById('tNext').addEventListener('click', () => goTo(tIdx + 1));
+
+// Auto-advance
+setInterval(() => goTo(tIdx + 1), 5000);
+
+/* ═══════════════════════════════════════
+   GALLERY SLIDER
+═══════════════════════════════════════ */
+const gTrack = document.getElementById('galleryTrack');
+const gItems = gTrack.querySelectorAll('.gallery-item');
+const gFill = document.getElementById('galleryFill');
+const ITEM_W = 396; // 380 + 16 gap
+let gIdx = 0;
+const gMax = gItems.length - 1;
+
+function galleryGo(dir) {
+  gIdx = Math.max(0, Math.min(gMax - 2, gIdx + dir));
+  gTrack.style.transform = `translateX(-${gIdx * ITEM_W}px)`;
+  gFill.style.width = ((gIdx + 1) / gItems.length * 100) + '%';
+}
+document.getElementById('gPrev').addEventListener('click', () => galleryGo(-1));
+document.getElementById('gNext').addEventListener('click', () => galleryGo(1));
+
+// Auto-play gallery
+let gAutoPlay = setInterval(() => galleryGo(1), 3000);
+gTrack.addEventListener('mouseenter', () => clearInterval(gAutoPlay));
+gTrack.addEventListener('mouseleave', () => { gAutoPlay = setInterval(() => galleryGo(1), 3000); });
+
+// Touch swipe for gallery
+let gTouchX = 0;
+gTrack.addEventListener('touchstart', e => { gTouchX = e.touches[0].clientX; }, {passive:true});
+gTrack.addEventListener('touchend', e => {
+  const dx = gTouchX - e.changedTouches[0].clientX;
+  if (Math.abs(dx) > 50) galleryGo(dx > 0 ? 1 : -1);
+});
+
+/* ═══════════════════════════════════════
+   CONTACT FORM
+═══════════════════════════════════════ */
+function submitForm() {
+  const name = document.getElementById('fname').value.trim();
+  const phone = document.getElementById('fphone').value.trim();
+  const email = document.getElementById('femail').value.trim();
+  const type = document.getElementById('ftype').value;
+  const budget = document.getElementById('fbudget').value;
+  const msg = document.getElementById('fmessage').value.trim();
+
+  if (!name || !phone || !email) { 
+    alert('Please fill in your name, phone, and email.'); return; 
+  }
+
+  const btn = document.getElementById('submitBtn');
+  btn.textContent = 'Sending...'; btn.classList.add('sending');
+
+  // Simulate API call (replace with actual backend/EmailJS/Firebase)
+  setTimeout(() => {
+    console.log('Form data:', { name, phone, email, type, budget, msg });
+    document.getElementById('contactForm').style.display = 'none';
+    document.getElementById('formSuccess').classList.add('show');
+  }, 1800);
+}
+
+/* ═══════════════════════════════════════
+   NUMBER COUNTER ANIMATION
+═══════════════════════════════════════ */
+function animateNum(el, target, suffix) {
+  let start = 0; const dur = 2000; const step = 16;
+  const inc = target / (dur / step);
+  const timer = setInterval(() => {
+    start = Math.min(start + inc, target);
+    el.textContent = Math.round(start) + suffix;
+    if (start >= target) clearInterval(timer);
+  }, step);
+}
+
+const statObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.about-stat-num, .stat-num').forEach(el => {
+        const t = parseInt(el.textContent); const s = el.textContent.includes('+') ? '+' : (el.textContent.includes('%') ? '%' : '');
+        animateNum(el, t, s);
+      });
+      statObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('.about-stats, .hero-stat-bar').forEach(el => statObserver.observe(el));
+
+/* ═══════════════════════════════════════
+   SMOOTH ANCHOR SCROLL
+═══════════════════════════════════════ */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const id = a.getAttribute('href');
+    if (id === '#') return;
+    const el = document.querySelector(id);
+    if (el) {
+      e.preventDefault();
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+});
+</script>
+</body>
+</html>
