@@ -380,7 +380,93 @@
     </div>
     <div class="reveal-right">
       <div class="contact-form" id="contactForm">
-        <div class="form-row">
+        <div class="reveal-right">
+
+  <form class="contact-form" id="contactForm">
+
+```
+<input type="hidden" name="access_key" value="ebb24b6f-7800-4cf7-9ace-d2cc5139e32f">
+
+<div class="form-row">
+  <div class="form-group">
+    <input type="text" id="fname" name="name" placeholder=" " required />
+    <label class="form-label" for="fname">Full Name *</label>
+  </div>
+
+  <div class="form-group">
+    <input type="tel" id="fphone" name="phone" placeholder=" " required />
+    <label class="form-label" for="fphone">Phone Number *</label>
+  </div>
+</div>
+
+<div class="form-group">
+  <input type="email" id="femail" name="email" placeholder=" " required />
+  <label class="form-label" for="femail">Email Address *</label>
+</div>
+
+<div class="form-row">
+  <div class="form-group">
+    <select id="ftype" name="project_type">
+      <option value="" disabled selected>Project Type</option>
+      <option>Residential Design</option>
+      <option>Commercial Design</option>
+      <option>Interior Design</option>
+      <option>Renovation</option>
+      <option>3D Visualization</option>
+      <option>Consultation</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <select id="fbudget" name="budget">
+      <option value="" disabled selected>Budget Range</option>
+      <option>₹10L – ₹25L</option>
+      <option>₹25L – ₹50L</option>
+      <option>₹50L – ₹1Cr</option>
+      <option>₹1Cr – ₹5Cr</option>
+      <option>₹5Cr+</option>
+    </select>
+  </div>
+</div>
+
+<div class="form-group">
+  <textarea
+    id="fmessage"
+    name="message"
+    placeholder="Tell us about your project, timeline, and any specific requirements..."
+  ></textarea>
+</div>
+
+<div class="form-submit">
+  <div>
+    <p class="submit-note">✓ &nbsp;Response within 24 hours</p>
+  </div>
+
+  <button type="submit" class="submit-btn" id="submitBtn">
+    Send Enquiry →
+  </button>
+</div>
+
+
+  </form>
+
+  <div class="form-success" id="formSuccess" style="display:none;">
+    <div class="success-icon">✦</div>
+    <h3 class="success-title">Thank You for Reaching Out</h3>
+    <p class="success-text">
+      Your enquiry has been received. Our team will review your project details
+      and get back to you within 24 hours. We look forward to creating something extraordinary with you.
+    </p>
+    <div class="gold-line gold-line-center" style="width:60px;margin:24px auto;"></div>
+    <p style="font-size:12px;color:var(--text3);letter-spacing:0.1em;">
+      — The Badwal Architect Team
+    </p>
+  </div>
+
+</div>
+
+
+        <!-- <div class="form-row">
           <div class="form-group"><input type="text" id="fname" placeholder=" " required/><label class="form-label" for="fname">Full Name *</label></div>
           <div class="form-group"><input type="tel" id="fphone" placeholder=" " required/><label class="form-label" for="fphone">Phone Number *</label></div>
         </div>
@@ -416,7 +502,7 @@
           <button type="button" class="submit-btn" id="submitBtn" onclick="submitForm()">
             Send Enquiry →
           </button>
-        </div>
+        </div> -->
       </div>
       <div class="form-success" id="formSuccess">
         <div class="success-icon">✦</div>
