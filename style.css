@@ -679,7 +679,11 @@ section { padding: clamp(80px, 10vw, 140px) clamp(24px, 8vw, 120px); }
    CONTACT
 ═══════════════════════════════════════ */
 #contact { background: var(--black2); }
-.contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: clamp(40px, 8vw, 100px); }
+#contact{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
 .contact-info-item {
   display: flex; align-items: flex-start; gap: 20px;
   padding: 24px 0; border-bottom: 1px solid rgba(201,168,76,0.1);
