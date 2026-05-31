@@ -835,7 +835,7 @@ footer {
   .gallery-item { width: 280px; }
   #contact{
     display: flex;
-    flex-drection:column;
+    flex-direction: column;
     justify-content: space-between;
     align-items: flex-end;
 }
