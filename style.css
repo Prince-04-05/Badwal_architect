@@ -833,4 +833,10 @@ footer {
   .hero-stat-bar { display: none; }
   .about-stats { grid-template-columns: repeat(3, 1fr); }
   .gallery-item { width: 280px; }
+  #contact{
+    display: flex;
+    flex-drection:column;
+    justify-content: space-between;
+    align-items: flex-end;
+}
 }
