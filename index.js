@@ -174,28 +174,37 @@ gTrack.addEventListener('touchend', e => {
 /* ═══════════════════════════════════════
    CONTACT FORM
 ═══════════════════════════════════════ */
-function submitForm() {
-  const name = document.getElementById('fname').value.trim();
-  const phone = document.getElementById('fphone').value.trim();
-  const email = document.getElementById('femail').value.trim();
-  const type = document.getElementById('ftype').value;
-  const budget = document.getElementById('fbudget').value;
-  const msg = document.getElementById('fmessage').value.trim();
 
-  if (!name || !phone || !email) { 
-    alert('Please fill in your name, phone, and email.'); return; 
-  }
+document.getElementById("contactForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
 
-  const btn = document.getElementById('submitBtn');
-  btn.textContent = 'Sending...'; btn.classList.add('sending');
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.innerHTML = "Sending...";
+    submitBtn.disabled = true;
 
-  // Simulate API call (replace with actual backend/EmailJS/Firebase)
-  setTimeout(() => {
-    console.log('Form data:', { name, phone, email, type, budget, msg });
-    document.getElementById('contactForm').style.display = 'none';
-    document.getElementById('formSuccess').classList.add('show');
-  }, 1800);
-}
+    const formData = new FormData(this);
+
+    try {
+        const response = await fetch("https://api.web3forms.com/submit", {
+            method: "POST",
+            body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            document.getElementById("contactForm").style.display = "none";
+            document.getElementById("formSuccess").style.display = "block";
+        } else {
+            alert("Failed to send enquiry.");
+        }
+    } catch (error) {
+        alert("Something went wrong. Please try again.");
+    }
+
+    submitBtn.innerHTML = "Send Enquiry →";
+    submitBtn.disabled = false;
+});
 
 /* ═══════════════════════════════════════
    NUMBER COUNTER ANIMATION
