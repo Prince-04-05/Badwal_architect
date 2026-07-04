@@ -832,7 +832,7 @@ footer {
   .footer-top { grid-template-columns: 1fr; }
   .hero-stat-bar { display: none; }
   .about-stats { grid-template-columns: repeat(3, 1fr); }
-  .gallery-item { width: 280px; }
+ 
   #contact{
     display: flex;
     flex-direction: column;
