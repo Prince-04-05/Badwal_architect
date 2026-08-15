@@ -1,0 +1,291 @@
+/* ═══════════════════════════════════════════════════════════
+   BADWAL AI ASSISTANT — isolated stylesheet
+   All selectors are namespaced under .badwal-ai-* to avoid any
+   collision with the existing site CSS. Reuses the site's own
+   design tokens (--gold, --black, --font-display, etc.) so the
+   widget inherits the luxury/editorial identity automatically.
+   Falls back to sane defaults if a token isn't defined.
+═══════════════════════════════════════════════════════════ */
+
+.badwal-ai-root {
+  --bai-black: var(--black, #0a0a08);
+  --bai-black2: var(--black2, #111110);
+  --bai-black3: var(--black3, #1a1a18);
+  --bai-white: var(--white, #f5f2ec);
+  --bai-gold: var(--gold, #c9a84c);
+  --bai-gold2: var(--gold2, #e8c97a);
+  --bai-text: var(--text, #f5f2ec);
+  --bai-text2: var(--text2, #b8b4aa);
+  --bai-text3: var(--text3, #6b6860);
+  --bai-border: var(--border, rgba(201,168,76,0.2));
+  --bai-glass: var(--glass, rgba(245,242,236,0.04));
+  --bai-glass2: var(--glass2, rgba(201,168,76,0.08));
+  --bai-font-display: var(--font-display, 'Cormorant Garamond', Georgia, serif);
+  --bai-font-body: var(--font-body, 'Montserrat', sans-serif);
+  --bai-ease: var(--ease, cubic-bezier(0.16, 1, 0.3, 1));
+  font-family: var(--bai-font-body);
+  cursor: auto;
+}
+.badwal-ai-root * { box-sizing: border-box; }
+.badwal-ai-root button { cursor: pointer; font-family: var(--bai-font-body); }
+
+/* ── Launcher button ─────────────────────────────────────── */
+.badwal-ai-launcher {
+  position: fixed;
+  bottom: 25px; right: 25px;
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(150deg, var(--bai-gold3, #a07830), var(--bai-gold));
+  border: 1px solid rgba(232,201,122,0.5);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 12px 36px rgba(0,0,0,0.45), 0 0 0 1px rgba(201,168,76,0.15);
+  z-index: 99500;
+  transition: transform 0.35s var(--bai-ease), box-shadow 0.35s var(--bai-ease);
+}
+.badwal-ai-launcher:hover {
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 18px 44px rgba(0,0,0,0.5), 0 0 0 1px rgba(201,168,76,0.3);
+}
+.badwal-ai-launcher:focus-visible {
+  outline: 2px solid var(--bai-gold2);
+  outline-offset: 3px;
+}
+.badwal-ai-launcher svg { width: 26px; height: 26px; color: var(--bai-black); }
+.badwal-ai-launcher-badge {
+  position: absolute; top: -2px; right: -2px;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: #d9534f; border: 2px solid var(--bai-black);
+  font-size: 0;
+}
+.badwal-ai-launcher-badge.hide { display: none; }
+
+@media (max-width: 480px) {
+  .badwal-ai-launcher { width: 58px; height: 58px; bottom: 18px; right: 18px; }
+  .badwal-ai-launcher svg { width: 23px; height: 23px; }
+}
+
+/* ── Chat window ─────────────────────────────────────────── */
+.badwal-ai-window {
+  position: fixed;
+  bottom: 104px; right: 25px;
+  width: 380px; height: 600px;
+  max-height: calc(100dvh - 130px);
+  background: var(--bai-black2);
+  border: 1px solid var(--bai-border);
+  border-radius: 6px;
+  box-shadow: 0 30px 90px rgba(0,0,0,0.55);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  z-index: 99600;
+  opacity: 0; transform: translateY(24px) scale(0.98);
+  pointer-events: none;
+  transition: opacity 0.35s var(--bai-ease), transform 0.35s var(--bai-ease);
+}
+.badwal-ai-window.open {
+  opacity: 1; transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  .badwal-ai-window, .badwal-ai-launcher { transition: none; }
+}
+
+@media (max-width: 480px) {
+  .badwal-ai-window {
+    right: 0; left: 0; bottom: 0;
+    width: 100%; height: 100dvh; max-height: 100dvh;
+    border-radius: 0; border: none;
+  }
+}
+
+/* ── Header ──────────────────────────────────────────────── */
+.badwal-ai-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 18px;
+  background: linear-gradient(135deg, var(--bai-black3), var(--bai-black2));
+  border-bottom: 1px solid var(--bai-border);
+  flex-shrink: 0;
+}
+.badwal-ai-mark {
+  width: 40px; height: 40px; border-radius: 50%;
+  border: 1px solid var(--bai-border);
+  background: var(--bai-glass2);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--bai-font-display); font-style: italic;
+  font-size: 17px; color: var(--bai-gold); flex-shrink: 0;
+}
+.badwal-ai-header-text { flex: 1; min-width: 0; }
+.badwal-ai-title {
+  font-family: var(--bai-font-display); font-size: 17px; font-weight: 500;
+  color: var(--bai-white); line-height: 1.2; letter-spacing: 0.01em;
+}
+.badwal-ai-subtitle {
+  font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--bai-text3); margin-top: 3px;
+}
+.badwal-ai-status {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: #7fbf7f; margin-top: 4px;
+}
+.badwal-ai-status-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: #7fbf7f;
+  box-shadow: 0 0 6px #7fbf7f;
+  animation: bai-pulse 2s ease-in-out infinite;
+}
+@keyframes bai-pulse { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
+.badwal-ai-header-actions { display: flex; gap: 4px; flex-shrink: 0; }
+.badwal-ai-icon-btn {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: none; border: 1px solid transparent; color: var(--bai-text2);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.25s;
+}
+.badwal-ai-icon-btn:hover { background: var(--bai-glass2); color: var(--bai-gold); }
+.badwal-ai-icon-btn:focus-visible { outline: 2px solid var(--bai-gold2); outline-offset: 1px; }
+.badwal-ai-icon-btn svg { width: 15px; height: 15px; }
+
+/* ── Messages area ───────────────────────────────────────── */
+.badwal-ai-body {
+  flex: 1; overflow-y: auto; overscroll-behavior: contain;
+  padding: 18px 16px;
+  display: flex; flex-direction: column; gap: 14px;
+  scrollbar-width: thin; scrollbar-color: var(--bai-border) transparent;
+}
+.badwal-ai-body::-webkit-scrollbar { width: 5px; }
+.badwal-ai-body::-webkit-scrollbar-thumb { background: var(--bai-border); border-radius: 4px; }
+
+.badwal-ai-row { display: flex; flex-direction: column; max-width: 88%; animation: bai-fade-in 0.35s var(--bai-ease); }
+@keyframes bai-fade-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+.badwal-ai-row.user { align-self: flex-end; align-items: flex-end; }
+.badwal-ai-row.assistant { align-self: flex-start; align-items: flex-start; }
+
+.badwal-ai-bubble {
+  padding: 11px 15px; font-size: 13px; line-height: 1.6; font-weight: 300;
+  border-radius: 3px; white-space: pre-wrap;
+}
+.badwal-ai-row.assistant .badwal-ai-bubble {
+  background: var(--bai-black3); color: var(--bai-text);
+  border: 1px solid rgba(201,168,76,0.12);
+  border-top-left-radius: 0;
+}
+.badwal-ai-row.user .badwal-ai-bubble {
+  background: var(--bai-gold); color: var(--bai-black);
+  font-weight: 400; border-top-right-radius: 0;
+}
+.badwal-ai-time {
+  font-size: 9px; letter-spacing: 0.08em; color: var(--bai-text3);
+  margin-top: 4px; padding: 0 4px;
+}
+
+/* Typing indicator */
+.badwal-ai-typing {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 13px 16px; background: var(--bai-black3);
+  border: 1px solid rgba(201,168,76,0.12);
+  border-radius: 3px; border-top-left-radius: 0;
+  align-self: flex-start;
+}
+.badwal-ai-typing span {
+  width: 5px; height: 5px; border-radius: 50%; background: var(--bai-gold);
+  animation: bai-bounce 1.2s ease-in-out infinite;
+}
+.badwal-ai-typing span:nth-child(2) { animation-delay: 0.15s; }
+.badwal-ai-typing span:nth-child(3) { animation-delay: 0.3s; }
+@keyframes bai-bounce { 0%,60%,100% { transform: translateY(0); opacity: 0.5; } 30% { transform: translateY(-4px); opacity: 1; } }
+
+/* Quick reply chips */
+.badwal-ai-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2px; }
+.badwal-ai-chip {
+  padding: 8px 14px; font-size: 11px; letter-spacing: 0.04em;
+  background: transparent; border: 1px solid var(--bai-border);
+  color: var(--bai-gold2); border-radius: 20px;
+  transition: all 0.25s;
+}
+.badwal-ai-chip:hover { background: var(--bai-gold); color: var(--bai-black); border-color: var(--bai-gold); transform: translateY(-1px); }
+.badwal-ai-chip:focus-visible { outline: 2px solid var(--bai-gold2); outline-offset: 1px; }
+
+/* CTA buttons (link-style, in-flow) */
+.badwal-ai-cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 20px; margin-top: 4px;
+  background: var(--bai-gold); color: var(--bai-black);
+  font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 600;
+  border: none; border-radius: 2px; transition: all 0.3s;
+}
+.badwal-ai-cta:hover { background: var(--bai-gold2); }
+.badwal-ai-cta.secondary {
+  background: transparent; color: var(--bai-gold); border: 1px solid var(--bai-border);
+}
+.badwal-ai-cta.secondary:hover { border-color: var(--bai-gold); background: var(--bai-glass2); }
+
+/* Lead capture inline form */
+.badwal-ai-form { display: flex; flex-direction: column; gap: 8px; width: 100%; margin-top: 4px; }
+.badwal-ai-form input, .badwal-ai-form select, .badwal-ai-form textarea {
+  width: 100%; padding: 10px 12px; font-size: 12px;
+  background: var(--bai-black); border: 1px solid var(--bai-border); color: var(--bai-text);
+  border-radius: 2px; font-family: var(--bai-font-body); outline: none;
+}
+.badwal-ai-form input:focus, .badwal-ai-form select:focus, .badwal-ai-form textarea:focus {
+  border-color: var(--bai-gold);
+}
+.badwal-ai-form label {
+  font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--bai-text3);
+}
+.badwal-ai-form textarea { resize: none; height: 64px; }
+
+/* Error state */
+.badwal-ai-error {
+  font-size: 12px; color: #e08a8a; background: rgba(224,138,138,0.08);
+  border: 1px solid rgba(224,138,138,0.25); padding: 10px 14px; border-radius: 3px;
+}
+.badwal-ai-retry {
+  margin-top: 6px; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  background: none; border: 1px solid var(--bai-border); color: var(--bai-gold);
+  padding: 7px 14px; border-radius: 2px;
+}
+.badwal-ai-retry:hover { background: var(--bai-glass2); }
+
+/* ── Suggestions bar (persistent quick questions) ───────── */
+.badwal-ai-suggestions {
+  padding: 10px 14px; border-top: 1px solid var(--bai-border);
+  display: flex; gap: 8px; overflow-x: auto; flex-shrink: 0;
+  scrollbar-width: none;
+}
+.badwal-ai-suggestions::-webkit-scrollbar { display: none; }
+.badwal-ai-suggestions .badwal-ai-chip { white-space: nowrap; flex-shrink: 0; }
+
+/* ── Input area ──────────────────────────────────────────── */
+.badwal-ai-inputbar {
+  display: flex; align-items: flex-end; gap: 10px;
+  padding: 12px 14px; border-top: 1px solid var(--bai-border);
+  background: var(--bai-black2); flex-shrink: 0;
+}
+.badwal-ai-textarea {
+  flex: 1; resize: none; max-height: 90px; min-height: 20px;
+  background: transparent; border: none; color: var(--bai-text);
+  font-family: var(--bai-font-body); font-size: 13px; line-height: 1.5;
+  outline: none; padding: 6px 2px;
+}
+.badwal-ai-textarea::placeholder { color: var(--bai-text3); }
+.badwal-ai-send {
+  width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
+  background: var(--bai-gold); border: none; color: var(--bai-black);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.25s;
+}
+.badwal-ai-send:hover { background: var(--bai-gold2); transform: scale(1.05); }
+.badwal-ai-send:disabled { opacity: 0.4; pointer-events: none; }
+.badwal-ai-send svg { width: 15px; height: 15px; }
+
+/* ── Footer ──────────────────────────────────────────────── */
+.badwal-ai-footer {
+  text-align: center; padding: 7px; flex-shrink: 0;
+  font-size: 9px; letter-spacing: 0.12em; color: var(--bai-text3);
+  border-top: 1px solid rgba(201,168,76,0.08);
+}
+
+/* Screen-reader only */
+.badwal-ai-sr-only {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0,0,0,0); white-space: nowrap;
+}
