@@ -19,11 +19,8 @@
   /* ─────────────────────────────────────────────────────────
      0. CONFIG
   ───────────────────────────────────────────────────────── */
-  const CONFIG = {
-    // Set to a real same-origin route (e.g. "/api/chat") once the
-    // secure backend described in server.js / api/chat.js is deployed.
-    // Leave null to run entirely on the local knowledge-base engine.
-    backendUrl: null,
+const CONFIG = {
+     backendUrl: '/api/chat',
     storageKeys: {
       open: 'badwal_ai_open',
       history: 'badwal_ai_history',
